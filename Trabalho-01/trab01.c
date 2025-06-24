@@ -110,6 +110,20 @@ Aluno PegarDados(){
     return aluno;
 }
 
+// limpar a sujeira
+void Faxina(Lista* lista){
+    if(lista != NULL){
+        ListaNo* atual = lista->primeiro;
+
+        while(atual != NULL){ // percorre liberando geral
+            ListaNo* tempo = atual;
+            atual = atual->proximo;
+            free(tempo);
+        }
+        free(lista);
+    }
+}
+
 int main(){
     Lista* lista = criar();
     int escolha, matricula;
@@ -156,5 +170,6 @@ int main(){
             }
         }
     } while(escolha != 4);
+    Faxina(lista);
     return 0;
 }
