@@ -6,10 +6,10 @@
 
  struct filaNo{
     char aluno[50];
-    int mat;
+    int matricula;
     filaNo* prox;
  };
-
+     
 typedef struct primElemento{
     filaNo* prim;
     filaNo* ult;
@@ -22,7 +22,7 @@ fila* criar(void){
     return f;
 }
 
-void insere(fila *f, int m, char *n);
+void insere(fila *f, int matricula, char *nome);
 void imprimir(fila *f);
 void liberarFila(fila *f);
 
@@ -43,9 +43,9 @@ int main(){
 }
 
 
-void insere(fila* f, int mat, char* nome){
+void insere(fila* f, int matricula, char* nome){
     filaNo* novo= (filaNo*) malloc(sizeof(filaNo));
-    novo->mat= mat;
+    novo->matricula= matricula;
     novo->prox= NULL;
     strcpy(novo->aluno,nome);
     if(f->prim == NULL){
@@ -63,7 +63,7 @@ void imprimir(fila *f){
         printf("***************************\n");
         for(filaNo *aux= f->prim; aux != NULL; aux= aux->prox){
             printf("Nome: %s\n", aux->aluno);
-            printf("Matricula: %d\n", aux->mat);
+            printf("Matricula: %d\n", aux->matricula);
             printf("***************************\n");
         }
     }
