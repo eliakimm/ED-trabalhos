@@ -1,3 +1,7 @@
+# Alunos:
+Eliakim Pereira da Silva - 231021440
+Matheus Nunes Ferreira - 231021511
+
 # Trabalho 01: Controle de alunos aprovados
 
 Um sistema que calcula a nota de alunos cadastrados e retorna uma fila com os alunos reprovados.
