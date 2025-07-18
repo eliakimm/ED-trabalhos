@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <locale.h>
 #define tam 100
 
 //Estruturas de uma arvore binaria:
@@ -40,7 +41,7 @@ void liberaArvore(Raiz* arvore){
     free(arvore);
 }
 
-//Altura da arvore e contagem de elementos: conta os n√≥s da esquerda e da direita e retorna o maior somando +1
+//Altura da arvore e contagem de elementos: conta os nÛs da esquerda e da direita e retorna o maior somando +1
 int alturaArvore(Raiz *arvore){
     if(arvore == NULL)
         return 0;
@@ -65,7 +66,7 @@ int contarNo(Raiz *arvore){
     return (no_esqd+no_dirt +1);
 }
 
-//Inser√ß√£o: Valores maiores que a ra√≠z ficam a direita e valores menores a esquerda, assim temos uma arvore binaria de busca 
+//InserÁ„o: Valores maiores que a raÌz ficam a direita e valores menores a esquerda, assim temos uma arvore binaria de busca 
 void insereArvore(Raiz *arvore,char *nome, char*matricula){
     if(arvore == NULL){
         printf("Erro\n");
@@ -93,7 +94,7 @@ void insereArvore(Raiz *arvore,char *nome, char*matricula){
             cmp = strcmp(novo->nome, atual->nome);
             if(cmp == 0){
                 free(novo);
-                printf("Aluno j√° cadastrado\n");
+                printf("Aluno ja cadastrado\n");
                 return;
             }
             if(cmp > 0){
@@ -112,13 +113,10 @@ void insereArvore(Raiz *arvore,char *nome, char*matricula){
 
 //Percorrendo e imprimindo a arvore:
 
-//Em Ordem: esquerda --> ra√≠z --> direita
+//Em Ordem: esquerda --> raÌ≠z --> direita
 void emOrdem(Raiz* arvore){
     if(arvore == NULL){
         printf("Arvore vazia\n");
-        return;}
-    if(*arvore == NULL){
-        printf("Nao existem alunos cadastrados.\n");
         return;}
     if(*arvore != NULL){
         emOrdem(&(*arvore)->esquerda);
@@ -126,9 +124,9 @@ void emOrdem(Raiz* arvore){
         emOrdem(&(*arvore)->direita);}
 }
 
-//Remo√ß√£o de um elemento:
+//RemoÁ„o de um elemento:
 
-//Ap√≥s encontrar o n√≥ que ser√° removido, a fun√ß√£o tratarNo √© responsavel por remover o n√≥ e garantir o encadeamento correto seguindo as regras de uma arvore de busca binaria. 
+//ApÛs encontrar o nÛ que ser· removido, a funÁ„o tratarNo È responsavel por remover o nÛ e garantir o encadeamento correto seguindo as regras de uma arvore de busca binaria. 
 No* tratarNo(No* atual){
     No* no1, *no2;
     if(atual->esquerda == NULL){
@@ -151,7 +149,7 @@ No* tratarNo(No* atual){
     return no2;
 }
 
-//A fun√ß√£o removeNo √© responsavel por encontrar o no a ser removido
+//A funÁ„o removeNo È responsavel por encontrar o nÛ a ser removido
 void removeNo(Raiz* arvore, const char* nome){
     if(arvore == NULL){
         printf("Arvore vazia\n");
@@ -181,27 +179,38 @@ void removeNo(Raiz* arvore, const char* nome){
             atual = atual->esquerda;
         }
     }
-    printf("Nome n√£o encontrado para remo√ß√£o.\n");
+    printf("Aluno nao encontrado.\n");
+    system("pause");
 }
 
-//entrada de dados:
-void maiuscula(char *nome) {
-    wchar_t nome2[tam];
-    mbstowcs(nome2, nome, tam);
-    for (int i = 0; nome2[i]; i++) {
-        nome2[i] = towupper(nome2[i]);
+//entrada de dados: 
+void maiuscula(char *nome){
+    int tamanho= strlen(nome);
+    for(int i= 0; i < tamanho; i++){
+        if(nome[0] == ' '){
+            printf("Sem espacos no inicio do nome.\n");
+            system("pause");
+            return;
+        }
+        if(isdigit(nome[i])){
+            printf("Nomes nao podem conter numeros.\n");
+            system("pause");
+            return;
+        }
+        nome[i] = toupper(nome[i]);
     }
-    wcstombs(nome, nome2, tam);
 }
 
 void cadastrarAluno(Raiz *arvore){
+    setlocale(LC_ALL, "Portuguese");
+    static int contador_matricula = 1;
     char nome[tam];
-    int digito_da_matricula= contarNo(arvore) + 1; 
     char matricula[tam];
-    sprintf(matricula, "2025-%02d", digito_da_matricula);
     printf("Digite o nome do aluno: ");
     scanf("%[^\n]", nome);
     maiuscula(nome);
+    sprintf(matricula, "2025-%02d", contador_matricula);
+    contador_matricula++;
     insereArvore(arvore, nome, matricula);
 }
 
