@@ -41,7 +41,7 @@ void liberaArvore(Raiz* arvore){
     free(arvore);
 }
 
-//Altura da arvore e contagem de elementos: conta os nÛs da esquerda e da direita e retorna o maior somando +1
+//Altura da arvore e contagem de elementos: conta os nos da esquerda e da direita e retorna o maior somando +1
 int alturaArvore(Raiz *arvore){
     if(arvore == NULL)
         return 0;
@@ -66,7 +66,7 @@ int contarNo(Raiz *arvore){
     return (no_esqd+no_dirt +1);
 }
 
-//InserÁ„o: Valores maiores que a raÌz ficam a direita e valores menores a esquerda, assim temos uma arvore binaria de busca 
+//Inser√ß√£o: Valores maiores que a raiz ficam a direita e valores menores a esquerda, assim temos uma arvore binaria de busca 
 void insereArvore(Raiz *arvore,char *nome, char*matricula){
     if(arvore == NULL){
         printf("Erro\n");
@@ -75,7 +75,7 @@ void insereArvore(Raiz *arvore,char *nome, char*matricula){
     struct No* novo;
     novo= (No*)malloc(sizeof(No));
     if(novo == NULL){
-        printf("Erro ao alocar memoria\n");
+        wprintf(L"Erro ao alocar mem√≥ria\n");
         return;
     }
     strcpy(novo->matricula, matricula);
@@ -94,7 +94,7 @@ void insereArvore(Raiz *arvore,char *nome, char*matricula){
             cmp = strcmp(novo->nome, atual->nome);
             if(cmp == 0){
                 free(novo);
-                printf("Aluno ja cadastrado\n");
+                wprintf(L"Aluno j√° cadastrado\n");
                 return;
             }
             if(cmp > 0){
@@ -113,7 +113,7 @@ void insereArvore(Raiz *arvore,char *nome, char*matricula){
 
 //Percorrendo e imprimindo a arvore:
 
-//Em Ordem: esquerda --> raÌ≠z --> direita
+//Em Ordem: esquerda --> ra√≠z --> direita
 void emOrdem(Raiz* arvore){
     if(arvore == NULL){
         printf("Arvore vazia\n");
@@ -124,9 +124,9 @@ void emOrdem(Raiz* arvore){
         emOrdem(&(*arvore)->direita);}
 }
 
-//RemoÁ„o de um elemento:
+//Remo√ß√£o de um elemento:
 
-//ApÛs encontrar o nÛ que ser· removido, a funÁ„o tratarNo È responsavel por remover o nÛ e garantir o encadeamento correto seguindo as regras de uma arvore de busca binaria. 
+//Ap√≥s encontrar o n√≥ que ser√° removido, a fun√ß√£o tratarNo √© responsavel por remover o n√≥ e garantir o encadeamento correto seguindo as regras de uma arvore de busca binaria. 
 No* tratarNo(No* atual){
     No* no1, *no2;
     if(atual->esquerda == NULL){
@@ -149,7 +149,7 @@ No* tratarNo(No* atual){
     return no2;
 }
 
-//A funÁ„o removeNo È responsavel por encontrar o nÛ a ser removido
+//A funÔøΩÔøΩo removeNo ÔøΩ responsavel por encontrar o nÔøΩ a ser removido
 void removeNo(Raiz* arvore, const char* nome){
     if(arvore == NULL){
         printf("Arvore vazia\n");
@@ -179,7 +179,7 @@ void removeNo(Raiz* arvore, const char* nome){
             atual = atual->esquerda;
         }
     }
-    printf("Aluno nao encontrado.\n");
+    printf("Aluno n√£o encontrado.\n");
     system("pause");
 }
 
@@ -188,7 +188,7 @@ void maiuscula(char *nome){
     int tamanho= strlen(nome);
     for(int i= 0; i < tamanho; i++){
         if(nome[0] == ' '){
-            printf("Sem espacos no inicio do nome.\n");
+            wprintf(L"Sem espa√ßos no inicio do nome.\n");
             system("pause");
             return;
         }
@@ -202,7 +202,7 @@ void maiuscula(char *nome){
 }
 
 void cadastrarAluno(Raiz *arvore){
-    setlocale(LC_ALL, "Portuguese");
+    // setlocale(LC_ALL, "Portuguese");
     static int contador_matricula = 1;
     char nome[tam];
     char matricula[tam];
