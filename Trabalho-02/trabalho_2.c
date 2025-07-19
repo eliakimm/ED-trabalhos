@@ -9,7 +9,10 @@
 #define tam 100
 
 int main() {
-    setlocale(LC_ALL, "");
+     // essas coisas estranhas servem para mudar a localidade:
+    puts (setlocale(LC_ALL, "Portuguese"));
+    system("chcp 1252");  // muda para Windows 1252 que aceita acentos
+    
     int escolha;
     Raiz* arvore = criar_arvore();
 
@@ -24,7 +27,7 @@ int main() {
         printf("Escolha: ");
 
         while(scanf("%d", &escolha) != 1){
-            printf("Entrada invalida. 1-4: ");
+            wprintf(L"Entrada inválida. 1-4: ");  // L permite impressao especial
             while(getchar() != '\n');
         }
         getchar();
@@ -42,7 +45,7 @@ int main() {
             }
             case 3:{
                 system("clear || cls");
-                printf("NOME | MATRICULA\n");
+                wprintf(L"NOME | MATRÍCULA\n");
                 emOrdem(arvore);
                 system("pause");
                 break;
@@ -55,7 +58,7 @@ int main() {
             }
             default:{
                 system("clear || cls");
-                printf("Ainda nao temos essa opcao.\n");
+                wprintf(L"Ainda não temos essa opção.\n");
                 system("pause");
             }
         }
