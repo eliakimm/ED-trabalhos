@@ -19,18 +19,20 @@ int main() {
 
     do{
         system("clear || cls");
-        printf("\n----- MENU -----\n");
-        printf("[1] -> Adicionar aluno\n");
-        printf("[2] -> Remover aluno\n");
-        printf("[3] -> Imprimir Turma\n");
-        printf("[4] -> Lan�ar notas\n");
-        printf("[5] -> Imprimir notas\n");
-        printf("[0] -> Sair\n");
-        printf("_____________________\n");
+        printf("\n|===============================|\n"); // 33
+        printf("|         MENU PRINCIPAL        |\n");
+        printf("\n|===============================|\n");
+        printf("|   [1] -> Adicionar aluno      |\n");
+        printf("|   [2] -> Remover aluno        |\n");
+        printf("|   [3] -> Imprimir Turma       |\n");
+        printf("|   [4] -> Lançar notas         |\n");
+        printf("|   [5] -> Imprimir notas       |\n");
+        printf("|   [0] -> Sair                 |\n");
+        printf("|===============================|\n");
         printf("Escolha: ");
 
         while(scanf("%d", &escolha) != 1){
-            wprintf(L"Entrada inválida. 0-5: ");  // L permite impressao especial
+            wprintf(L"Entrada invÃ¡lida. 0-5: ");  // L permite impressao especial
             while(getchar() != '\n');
         }
         getchar();
@@ -49,7 +51,7 @@ int main() {
             case 3:{
                 system("clear || cls");
                 printf("Alunos cadastrados: %02d\n", contarNo(arvore));
-                wprintf(L"NOME | MATRÍCULA\n");
+                wprintf(L"NOME | MATRÃCULA\n");
                 emOrdem(arvore);
                 system("pause");
                 break;
@@ -76,7 +78,7 @@ int main() {
             }
             default:{
                 system("clear || cls");
-                wprintf(L"Ainda não temos essa opção.\n");
+                wprintf(L"Ainda nÃ£o temos essa opÃ§Ã£o.\n");
                 system("pause");
             }
         }
