@@ -12,7 +12,7 @@
 typedef struct No* Raiz;
 
 typedef struct No{
-    char matricula[tam];
+    float matricula;
     char nome[tam];
     struct No* esquerda;
     struct No* direita;
@@ -78,7 +78,7 @@ void insereArvore(Raiz *arvore,char *nome, char*matricula){
         wprintf(L"Erro ao alocar memória\n");
         return;
     }
-    strcpy(novo->matricula, matricula);
+    novo->matricula = atof(matricula);
     strcpy(novo->nome, nome);
     novo->esquerda= NULL;
     novo->direita= NULL;
@@ -111,6 +111,45 @@ void insereArvore(Raiz *arvore,char *nome, char*matricula){
     }
 }
 
+// Insere um nó na árvore de notas, ordenando pela média
+void inserePorMedia(Raiz *arvore, char *nome, float media) {
+    if(arvore == NULL){
+        printf("Erro\n");
+        return;
+    }
+    struct No* novo = (No*)malloc(sizeof(No));
+    if(novo == NULL){
+        wprintf(L"Erro ao alocar memória\n");
+        return;
+    }
+    novo->matricula = media;
+    strcpy(novo->nome, nome);
+    novo->esquerda = NULL;
+    novo->direita = NULL;
+
+    if(*arvore == NULL){
+        *arvore = novo;
+    } else {
+        No* atual = *arvore;
+        No* ant = NULL;
+        int lado = 0;
+        while(atual != NULL){
+            ant = atual;
+            if(novo->matricula > atual->matricula){
+                atual = atual->direita;
+                lado = 1;
+            } else {
+                atual = atual->esquerda;
+                lado = 0;
+            }
+        }
+        if(lado)
+            ant->direita = novo;
+        else
+            ant->esquerda = novo;
+    }
+}
+
 //Percorrendo e imprimindo a arvore:
 
 //Em Ordem: esquerda --> raíz --> direita
@@ -120,8 +159,62 @@ void emOrdem(Raiz* arvore){
         return;}
     if(*arvore != NULL){
         emOrdem(&(*arvore)->esquerda);
-        printf("%s : %s\n", (*arvore)->nome, (*arvore)->matricula);
+        printf("%s : %.2f\n", (*arvore)->nome, (*arvore)->matricula);
         emOrdem(&(*arvore)->direita);}
+}
+
+void emOrdem_decrescente(Raiz* arvore){
+    if(arvore == NULL){
+        printf("Arvore vazia\n");
+        return;
+    }
+    if(*arvore != NULL){
+        emOrdem_decrescente(&(*arvore)->direita);
+        printf("%s : %.2f\n", (*arvore)->nome, (*arvore)->matricula);
+        emOrdem_decrescente(&(*arvore)->esquerda);
+    }
+}
+
+// Busca um aluno pelo nome na árvore binária
+No* buscarPorNome(Raiz* arvore, const char* nome) {
+    if (arvore == NULL || *arvore == NULL) return NULL;
+    No* atual = *arvore;
+    int cmp;
+    while (atual != NULL) {
+        cmp = strcmp(nome, atual->nome);
+        if (cmp == 0) {
+            return atual;
+        }
+        if (cmp > 0) {
+            atual = atual->direita;
+        } else {
+            atual = atual->esquerda;
+        }
+    }
+    return NULL;
+}
+// Verifica se o aluno está na árvore principal e se já está na árvore de notas
+// Retorna 1 se pode lançar nota, 0 se não pode (não existe ou já tem nota)
+int podeLancarNota(Raiz* arvore, Raiz* arvore_notas, const char* nome) {
+    No* aluno = buscarPorNome(arvore, nome);
+    if (aluno == NULL) {
+        printf("Aluno não encontrado na turma.\n");
+        return 0;
+    }
+    No* aluno_nota = buscarPorNome(arvore_notas, nome);
+    if (aluno_nota != NULL) {
+        printf("Aluno já possui nota lançada.\n");
+        return 0;
+    }
+    return 1;
+}
+// Busca um aluno pelo nome e retorna apenas o nome (ou NULL se não encontrar)
+const char* buscarNome(Raiz* arvore, const char* nome) {
+    No* resultado = buscarPorNome(arvore, nome);
+    if (resultado != NULL) {
+        return resultado->nome;
+    }
+    return NULL;
 }
 
 //Remoção de um elemento:
@@ -205,13 +298,15 @@ void cadastrarAluno(Raiz *arvore){
     // setlocale(LC_ALL, "Portuguese");
     static int contador_matricula = 1;
     char nome[tam];
-    char matricula[tam];
+    float matricula;
     printf("Digite o nome do aluno: ");
     scanf("%[^\n]", nome);
     maiuscula(nome);
-    sprintf(matricula, "2025-%02d", contador_matricula);
+    matricula = 2025.00f + (float)contador_matricula / 100.0f;
     contador_matricula++;
-    insereArvore(arvore, nome, matricula);
+    char matricula_str[32];
+    sprintf(matricula_str, "%f", matricula);
+    insereArvore(arvore, nome, matricula_str);
 }
 
 void removerAluno(Raiz *arvore){
@@ -220,4 +315,27 @@ void removerAluno(Raiz *arvore){
     scanf("%[^\n]", nome);
     maiuscula(nome);
     removeNo(arvore, nome);
+}
+
+void pegar_notas(Raiz* arvore, Raiz* arvore_notas){
+    printf("Digite o nome do aluno:\n");
+    char nome[tam];
+    scanf("%[^\n]", nome);
+    maiuscula(nome);
+    if (!podeLancarNota(arvore, arvore_notas, nome)) {
+        system("pause");
+        return;
+    }
+    printf("Digite as 5 notas do aluno %s (separadas por espaco):\n", nome);
+    double notas[5];
+    for(int i = 0; i < 5; i++) {
+        scanf("%lf", &notas[i]);
+    }
+    double media = ((notas[0] * 2) + (notas[1] * 1.5) + (notas[2] * 1.5) + (notas[3] * 2.5) + (notas[4] * 2.5)) / 10;
+    char aluno_nome_buffer[tam];
+    printf("Media do aluno %s: %.2lf\n", nome, media);
+    system("pause");
+    strncpy(aluno_nome_buffer, nome, tam - 1);
+    aluno_nome_buffer[tam - 1] = '\0';
+    inserePorMedia(arvore_notas, aluno_nome_buffer, media);
 }

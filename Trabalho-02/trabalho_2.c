@@ -15,6 +15,7 @@ int main() {
     
     int escolha;
     Raiz* arvore = criar_arvore();
+    Raiz* arvore_notas = criar_arvore();
 
     do{
         system("clear || cls");
@@ -22,12 +23,14 @@ int main() {
         printf("[1] -> Adicionar aluno\n");
         printf("[2] -> Remover aluno\n");
         printf("[3] -> Imprimir Turma\n");
-        printf("[4] -> Sair\n");
+        printf("[4] -> Lan�ar notas\n");
+        printf("[5] -> Imprimir notas\n");
+        printf("[0] -> Sair\n");
         printf("_____________________\n");
         printf("Escolha: ");
 
         while(scanf("%d", &escolha) != 1){
-            wprintf(L"Entrada inválida. 1-4: ");  // L permite impressao especial
+            wprintf(L"Entrada inválida. 0-5: ");  // L permite impressao especial
             while(getchar() != '\n');
         }
         getchar();
@@ -45,6 +48,7 @@ int main() {
             }
             case 3:{
                 system("clear || cls");
+                printf("Alunos cadastrados: %02d\n", contarNo(arvore));
                 wprintf(L"NOME | MATRÍCULA\n");
                 emOrdem(arvore);
                 system("pause");
@@ -52,7 +56,21 @@ int main() {
             }
             case 4:{
                 system("clear || cls");
+                pegar_notas(arvore, arvore_notas);
+                break;
+            }
+            case 5:{
+                system("clear || cls");
+                printf("Alunos com notas: %02d\n", contarNo(arvore_notas));
+                wprintf(L"NOME | NOTA\n");
+                emOrdem_decrescente(arvore_notas);
+                system("pause");
+                break;
+            }
+            case 0:{
+                system("clear || cls");
                 liberaArvore(arvore);
+                liberaArvore(arvore_notas);
                 printf("Tchau...\n");
                 break;
             }
@@ -62,7 +80,7 @@ int main() {
                 system("pause");
             }
         }
-    } while(escolha != 4);
+    } while(escolha != 0);
 
     system("clear || cls");
     return 0;
