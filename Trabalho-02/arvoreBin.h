@@ -157,15 +157,16 @@ void emOrdem(Raiz* arvore){  // so vai percorer e imprimier os alunos
     if(arvore == NULL || *arvore == NULL){
         return;
     }
-    emOrdem(&(*arvore)->esquerda);
-    printf("|%-16s   |    %.2f|\n", (*arvore)->nome, (*arvore)->matricula);
-    emOrdem(&(*arvore)->direita);
+    if(*arvore != NULL){
+        emOrdem(&(*arvore)->esquerda);
+        printf("|%-16s|    %.2f      |\n", (*arvore)->nome, (*arvore)->matricula);
+        emOrdem(&(*arvore)->direita);
+    }
 }
 
 
 void cabecalho(Raiz* arvore){  // autoexplicativo
     if(arvore == NULL || *arvore == NULL){
-        printf("Arvore vazia.\n");
         return;
     }
     printf("\n|===============================|\n");
@@ -179,8 +180,7 @@ void cabecalho(Raiz* arvore){  // autoexplicativo
 
 
 void emOrdem_decrescente(Raiz* arvore){
-    if(arvore == NULL){
-        printf("Arvore vazia.\n");
+    if(arvore == NULL || *arvore == NULL){
         return;
     }
     if(*arvore != NULL){
@@ -324,12 +324,17 @@ void cadastrarAluno(Raiz *arvore){
     insereArvore(arvore, nome, matricula_str);
 }
 
-void removerAluno(Raiz *arvore){
+void removerAluno(Raiz *arvore, Raiz *arvore_notas){
     char nome[tam];
     printf("Digite o nome do aluno a ser removido: ");
     scanf("%[^\n]", nome);
     maiuscula(nome);
     removeNo(arvore, nome);
+    // Remover também da árvore de notas, se existir
+    No* aluno_nota = buscarPorNome(arvore_notas, nome);
+    if (aluno_nota != NULL) {
+        removeNo(arvore_notas, nome);
+    }
 }
 
 void pegar_notas(Raiz* arvore, Raiz* arvore_notas){

@@ -45,13 +45,16 @@ int main() {
             }
             case 2:{
                 system("clear || cls");
-                removerAluno(arvore);
+                removerAluno(arvore, arvore_notas);
                 break;
             }
             case 3:{
                 system("clear || cls");
-                //printf("Alunos cadastrados: %02d\n", contarNo(arvore));
-                //wprintf(L"NOME | MATRÃCULA\n");
+                if(contarNo(arvore) == 0) {
+                    wprintf(L"Nao ha alunos cadastrados.\n");
+                    system("pause");
+                    break;
+                }
                 cabecalho(arvore);
                 system("pause");
                 break;
@@ -63,6 +66,11 @@ int main() {
             }
             case 5:{
                 system("clear || cls");
+                if(contarNo(arvore_notas) == 0) {
+                    wprintf(L"Nao ha alunos com notas cadastradas.\n");
+                    system("pause");
+                    break;
+                }
                 printf("Alunos com notas: %02d\n", contarNo(arvore_notas));
                 printf("|===============================|\n");
                 wprintf(L"|NOME            |     NOTA     |\n");
