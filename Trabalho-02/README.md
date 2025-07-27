@@ -1,6 +1,7 @@
 # Alunos:
-Eliakim Pereira da Silva - 231021440
-Matheus Nunes Ferreira - 231021511
+
+#### Eliakim Pereira da Silva - 231021440
+#### Matheus Nunes Ferreira - 231021511
 
 # Trabalho 02: Controle de alunos e de notas
 
