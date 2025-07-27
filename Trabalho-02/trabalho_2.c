@@ -76,6 +76,7 @@ int main() {
                 wprintf(L"|NOME            |     NOTA     |\n");
                 printf("|===============================|\n");
                 emOrdem_decrescente(arvore_notas);
+                printf("|===============================|\n");
                 system("pause");
                 break;
             }
