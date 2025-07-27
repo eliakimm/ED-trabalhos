@@ -151,26 +151,41 @@ void inserePorMedia(Raiz *arvore, char *nome, float media) {
 }
 
 //Percorrendo e imprimindo a arvore:
-
 //Em Ordem: esquerda --> raíz --> direita
-void emOrdem(Raiz* arvore){
-    if(arvore == NULL){
-        printf("Arvore vazia\n");
-        return;}
-    if(*arvore != NULL){
-        emOrdem(&(*arvore)->esquerda);
-        printf("%s : %.2f\n", (*arvore)->nome, (*arvore)->matricula);
-        emOrdem(&(*arvore)->direita);}
+// tive que separar em duas funções com funções especificas pois da outra forma estava dando recursao infinita.
+void emOrdem(Raiz* arvore){  // so vai percorer e imprimier os alunos
+    if(arvore == NULL || *arvore == NULL){
+        return;
+    }
+    emOrdem(&(*arvore)->esquerda);
+    printf("|%-16s   |    %.2f|\n", (*arvore)->nome, (*arvore)->matricula);
+    emOrdem(&(*arvore)->direita);
 }
+
+
+void cabecalho(Raiz* arvore){  // autoexplicativo
+    if(arvore == NULL || *arvore == NULL){
+        printf("Arvore vazia.\n");
+        return;
+    }
+    printf("\n|===============================|\n");
+    printf("|        LISTA DE ALUNOS        |");
+    printf("\n|===============================|\n");
+    wprintf(L"|NOME               | MATRÍCULA |\n");
+    printf("|===============================|\n");
+    emOrdem(arvore);  
+    printf("|===============================|\n");
+}
+
 
 void emOrdem_decrescente(Raiz* arvore){
     if(arvore == NULL){
-        printf("Arvore vazia\n");
+        printf("Arvore vazia.\n");
         return;
     }
     if(*arvore != NULL){
         emOrdem_decrescente(&(*arvore)->direita);
-        printf("%s : %.2f\n", (*arvore)->nome, (*arvore)->matricula);
+        printf("|%-16s|    %.2f      |\n", (*arvore)->nome, (*arvore)->matricula);
         emOrdem_decrescente(&(*arvore)->esquerda);
     }
 }
@@ -198,12 +213,12 @@ No* buscarPorNome(Raiz* arvore, const char* nome) {
 int podeLancarNota(Raiz* arvore, Raiz* arvore_notas, const char* nome) {
     No* aluno = buscarPorNome(arvore, nome);
     if (aluno == NULL) {
-        printf("Aluno não encontrado na turma.\n");
+        wprintf(L"Aluno não encontrado na turma.\n");
         return 0;
     }
     No* aluno_nota = buscarPorNome(arvore_notas, nome);
     if (aluno_nota != NULL) {
-        printf("Aluno já possui nota lançada.\n");
+        wprintf(L"Aluno já possui nota lançada.\n");
         return 0;
     }
     return 1;
@@ -245,7 +260,7 @@ No* tratarNo(No* atual){
 //A fun��o removeNo � responsavel por encontrar o n� a ser removido
 void removeNo(Raiz* arvore, const char* nome){
     if(arvore == NULL){
-        printf("Arvore vazia\n");
+        wprintf(L"Árvore vazia.\n");
         return;
     }
     No* ant = NULL;
@@ -286,7 +301,7 @@ void maiuscula(char *nome){
             return;
         }
         if(isdigit(nome[i])){
-            printf("Nomes nao podem conter numeros.\n");
+            wprintf(L"Nomes não podem conter numeros.\n");
             system("pause");
             return;
         }
