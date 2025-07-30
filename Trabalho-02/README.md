@@ -36,7 +36,7 @@ Retorna uma chamada da turma em ordem alfabética;
 
             -exemplo: n1 n2 n3 n4 n5
 
-OBS: estamos utilizando no código um conversor para a lingua portuguesa, por isso ao digitar um número com casas decimais deve ser utilizado a vírgula ",".
+*OBS: estamos utilizando no código um conversor para a lingua portuguesa, por isso ao digitar um número com casas decimais deve ser utilizado a vírgula ",".*
 
 ### Opção 5: Imprimir notas;
 
